@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { Logger } from '@nestjs/common';
 
 // Hot-Module
 declare const module: any;
@@ -21,7 +22,9 @@ async function bootstrap() {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
-
-  console.log(`${SERVER_ENV} server http://${SERVER_HOST}:${SERVER_PORT}`);
+  Logger.log(
+    `${SERVER_ENV} server http://${SERVER_HOST}:${SERVER_PORT}`,
+    'ServerInfo',
+  );
 }
 bootstrap();
