@@ -24,7 +24,6 @@ async function bootstrap() {
   const SERVER_ENV = configService.get<string>('NODE_ENV', 'production');
   const SERVER_HOST = configService.get<string>('SERVER_HOST', 'localhost');
 
-
   // Hot-Module
   if (module.hot) {
     module.hot.accept();
@@ -33,6 +32,5 @@ async function bootstrap() {
 
   await app.listen(SERVER_PORT);
   console.log(`${SERVER_ENV} server http://${SERVER_HOST}:${SERVER_PORT}`);
-
 }
 bootstrap();
