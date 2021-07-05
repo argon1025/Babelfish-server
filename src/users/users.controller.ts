@@ -20,11 +20,8 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Put(':useremail')
-  ChangeAccountInformation(
-    @Headers('token') tokenData,
-    @Param('useremail') querysData,
-  ) {
-    return { querysData: querysData, tokenData: tokenData };
+  ChangeAccountInformation(@Headers('token') tokenData, @Param() paramsData) {
+    return { paramsData: paramsData.useremail, tokenData: tokenData };
   }
 
   @ApiTags('Account')
@@ -41,7 +38,7 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Delete(':useremail')
-  DeleteAccount(@Headers('token') tokenData, @Param('useremail') querysData) {
-    return { querysData: querysData, tokenData: tokenData };
+  DeleteAccount(@Headers('token') tokenData, @Param() paramsData) {
+    return { paramsData: paramsData.useremail, tokenData: tokenData };
   }
 }
