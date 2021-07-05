@@ -9,14 +9,14 @@ export class TokenController {
   constructor(private readonly tokenService: TokenService) {}
 
   @ApiTags('Account')
-  @ApiOperation({ summary: '서버에 회원등록을 요청합니다' })
+  @ApiOperation({ summary: '[Legacy] 서버에 회원등록을 요청합니다' })
   @Post('join')
   AccountRegistration(@Body() bodyData: AccountRegistrationDto) {
     return bodyData;
   }
 
   @ApiTags('Account')
-  @ApiOperation({ summary: '서버에 로그인을 요청합니다' })
+  @ApiOperation({ summary: '[Legacy] 서버에 로그인을 요청합니다' })
   @Post()
   AccountLogin(@Body() bodyData: AccountLoginDto) {
     return bodyData;
