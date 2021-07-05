@@ -1,32 +1,24 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AccountLoginDto } from './dto/Account.Login.dto';
+import { AccountRegistrationDto } from './dto/Account.Registration.dto';
 import { TokenService } from './token.service';
 
 @Controller('token')
 export class TokenController {
   constructor(private readonly tokenService: TokenService) {}
 
+  @ApiTags('Account')
+  @ApiOperation({ summary: '서버에 회원등록을 요청합니다' })
+  @Post('join')
+  AccountRegistration(@Body() bodyData: AccountRegistrationDto) {
+    return bodyData;
+  }
+
+  @ApiTags('Account')
+  @ApiOperation({ summary: '서버에 로그인을 요청합니다' })
   @Post()
-  create() {
-    return this.tokenService.create();
-  }
-
-  @Get()
-  findAll() {
-    return this.tokenService.findAll();
-  }
-
-  @Get()
-  findOne() {
-    return this.tokenService.findOne();
-  }
-
-  @Patch()
-  update() {
-    return this.tokenService.update();
-  }
-
-  @Delete()
-  remove() {
-    return this.tokenService.remove();
+  AccountLogin(@Body() bodyData: AccountLoginDto) {
+    return bodyData;
   }
 }
