@@ -8,8 +8,9 @@ import { NotesModule } from './notes/notes.module';
 import { WordsModule } from './words/words.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './common/Interceptor/Logging.interceptor';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-const ENV = process.env.NODE_ENV;
+const ENV = process.env;
 
 @Module({
   imports: [
@@ -19,7 +20,19 @@ const ENV = process.env.NODE_ENV;
     WordsModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      envFilePath: !ENV.NODE_ENV ? '.env' : `.env.${ENV.NODE_ENV}`,
+    }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: ENV.DB_HOST,
+      port: 3306,
+      username: ENV.DB_USERNAME,
+      password: ENV.DB_PASSWORD,
+      database: ENV.DB_DATABASE,
+      entities: ['entities/*.js'],
+      synchronize: false,
+      logging: true,
+      keepConnectionAlive: true,
     }),
   ],
   controllers: [AppController],
