@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Member } from './Member';
 import { Word } from './Word';
+import { IsNotEmpty, MinLength, MaxLength, IsString } from 'class-validator';
 
 @Index('member_email', ['memberEmail'], {})
 @Entity('note', { schema: 'babelfish' })
@@ -31,6 +32,10 @@ export class Note {
     description: '노트 이름',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(10)
   notename: string | null;
 
   @Column('date', { name: 'Learning_Day', nullable: true })

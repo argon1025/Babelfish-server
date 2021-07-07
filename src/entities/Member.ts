@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Note } from './Note';
+import {
+  IsNotEmpty,
+  IsEmail,
+  MinLength,
+  MaxLength,
+  IsString,
+} from 'class-validator';
 
 @Entity('member', { schema: 'babelfish' })
 export class Member {
@@ -10,6 +17,10 @@ export class Member {
     description: '이메일',
     required: true,
   })
+  @IsNotEmpty()
+  @IsEmail()
+  @MinLength(1)
+  @MaxLength(49)
   userid: string;
 
   @Column('varchar', {
@@ -23,6 +34,10 @@ export class Member {
     description: '별명',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(10)
   name: string | null;
 
   @Column('varchar', { name: 'password', length: 64 })
@@ -31,6 +46,10 @@ export class Member {
     description: '패스워드',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(64)
   password: string;
 
   @Column('varchar', { name: 'salt', length: 64 })

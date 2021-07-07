@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Note } from './Note';
+import { IsNotEmpty, MinLength, MaxLength, IsString } from 'class-validator';
 
 @Index('note_id', ['noteId'], {})
 @Entity('word', { schema: 'babelfish' })
@@ -29,6 +30,10 @@ export class Word {
     description: '단어',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(30)
   title: string | null;
 
   @Column('varchar', {
@@ -42,6 +47,10 @@ export class Word {
     description: '발음',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(30)
   mean1: string | null;
 
   @Column('varchar', {
@@ -55,6 +64,10 @@ export class Word {
     description: '단어 뜻',
     required: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(30)
   mean2: string | null;
 
   @Column('int', {

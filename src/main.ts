@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -29,6 +30,9 @@ async function bootstrap() {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
+
+  // Pipe
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(SERVER_PORT);
   console.log(`${SERVER_ENV} server http://${SERVER_HOST}:${SERVER_PORT}`);
