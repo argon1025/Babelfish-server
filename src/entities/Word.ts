@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   Entity,
@@ -23,13 +24,23 @@ export class Word {
     length: 30,
     default: () => "'Vocabulary'",
   })
-  wordTitle: string | null;
+  @ApiProperty({
+    example: 'word',
+    description: '단어',
+    required: true,
+  })
+  title: string | null;
 
   @Column('varchar', {
     name: 'Mean1',
     nullable: true,
     length: 30,
     default: () => "'Mean1'",
+  })
+  @ApiProperty({
+    example: '워드',
+    description: '발음',
+    required: true,
   })
   mean1: string | null;
 
@@ -38,6 +49,11 @@ export class Word {
     nullable: true,
     length: 30,
     default: () => "'Mean2'",
+  })
+  @ApiProperty({
+    example: '단어',
+    description: '단어 뜻',
+    required: true,
   })
   mean2: string | null;
 

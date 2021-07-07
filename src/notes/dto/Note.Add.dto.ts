@@ -1,10 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
+import { Note } from '../../entities/Note';
 
-export class NoteAddDto {
-  @ApiProperty({
-    example: 'TestNote',
-    description: '노트 이름',
-    required: true,
-  })
-  public notename: string;
-}
+export class NoteAddDto extends PickType(Note, ['notename']) {}

@@ -31,7 +31,7 @@ export class Note {
     description: '노트 이름',
     required: true,
   })
-  name: string | null;
+  notename: string | null;
 
   @Column('date', { name: 'Learning_Day', nullable: true })
   learningDay: string | null;
