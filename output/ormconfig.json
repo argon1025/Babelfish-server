@@ -1,0 +1,13 @@
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "ec2-15-164-214-135.ap-northeast-2.compute.amazonaws.com",
+    "port": 3306,
+    "username": "babelfish",
+    "password": "@Moonlight971025",
+    "database": "",
+    "synchronize": false,
+    "entities": ["entities/*.js"]
+  }
+]
