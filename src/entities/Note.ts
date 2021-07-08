@@ -53,7 +53,7 @@ export class Note {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'member_email', referencedColumnName: 'email' }])
+  @JoinColumn([{ name: 'member_email', referencedColumnName: 'userid' }])
   memberEmail2: Member;
 
   @OneToMany(() => Word, (word) => word.note)
