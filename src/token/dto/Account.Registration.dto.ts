@@ -5,4 +5,4 @@ export class AccountRegistrationDto extends PickType(Member, [
   'userid',
   'name',
   'password',
-]) {}
+] as const) {}

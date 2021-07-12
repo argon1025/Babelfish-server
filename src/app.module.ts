@@ -7,8 +7,11 @@ import { UsersModule } from './users/users.module';
 import { NotesModule } from './notes/notes.module';
 import { WordsModule } from './words/words.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from './common/Interceptor/Logging.interceptor';
+import { LoggingInterceptor } from './common/Interceptors/Logging.interceptor';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Member } from './entities/Member';
+import { Note } from './entities/Note';
+import { Word } from './entities/Word';
 
 const ENV = process.env;
 
@@ -29,10 +32,11 @@ const ENV = process.env;
       username: ENV.DB_USERNAME,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_DATABASE,
-      entities: ['entities/*.js'],
+      entities: [Member, Note, Word],
       synchronize: false,
       logging: true,
       keepConnectionAlive: true,
+      autoLoadEntities: true,
     }),
   ],
   controllers: [AppController],
