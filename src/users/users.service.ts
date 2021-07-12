@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from '../entities/Member';
 import { Repository } from 'typeorm';
@@ -28,17 +28,19 @@ export class UsersService {
     salt: string,
   ) {
     if (await this.userAlreadyExist(userId)) {
-      console.log('유저가 이미 존재합니다');
-      return false;
+      throw new HttpException(
+        { msg_code: 't6', msg: '이미 가입된 계정입니다.' },
+        401,
+      );
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    console.log(hashedPassword);
     const result = await this.membersRepository.save({
       userid: userId,
       name: name,
       password: hashedPassword,
       salt: 'null',
     });
+    console.log(salt, hashedPassword);
     console.log(result);
   }
 }
