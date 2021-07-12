@@ -20,7 +20,15 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Put(':useremail')
-  ChangeAccountInformation(@Headers('token') tokenData, @Param() paramsData) {
+  async ChangeAccountInformation(
+    @Headers('token') tokenData,
+    @Param() paramsData,
+  ) {
+    if (await this.usersService.userAlreadyExist(paramsData.useremail)) {
+      console.log('존재하는 아이디');
+    } else {
+      console.log('가입가능!');
+    }
     return { paramsData: paramsData.useremail, tokenData: tokenData };
   }
 
