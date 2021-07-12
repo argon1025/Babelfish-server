@@ -22,7 +22,12 @@ export class TokenController {
       bodyData.password,
       'null',
     );
-    return bodyData;
+    return this.userService.responseCreator('회원등록 되었습니다', 't7', [
+      {
+        data: 'hello',
+        data2: 'hello!!',
+      },
+    ]);
   }
 
   @ApiTags('Account')

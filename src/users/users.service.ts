@@ -10,6 +10,7 @@ export class UsersService {
     @InjectRepository(Member) private membersRepository: Repository<Member>,
   ) {}
 
+  // 유저 가입 확인 서비스
   async userAlreadyExist(userId: string): Promise<boolean> {
     const userData = await this.membersRepository.findOne({ userid: userId });
     if (userData) {
@@ -21,6 +22,7 @@ export class UsersService {
     }
   }
 
+  // 유저 가입 서비스
   async userRegistration(
     userId: string,
     name: string,
@@ -42,5 +44,17 @@ export class UsersService {
     });
     console.log(salt, hashedPassword);
     console.log(result);
+  }
+
+  // 응답 생성 서비스
+  responseCreator(message: string, messageCode: string, data: any) {
+    let response: { msg: string; msg_code: string; data?: any } = {
+      msg: message,
+      msg_code: messageCode,
+    };
+    if (!!data) {
+      response = { ...response, data: data };
+    }
+    return response;
   }
 }
