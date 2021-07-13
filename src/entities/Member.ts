@@ -1,13 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Note } from './Note';
-import {
-  IsNotEmpty,
-  IsEmail,
-  MinLength,
-  MaxLength,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsEmail, MinLength, MaxLength, IsString } from 'class-validator';
 
 @Entity('member', { schema: 'babelfish' })
 export class Member {

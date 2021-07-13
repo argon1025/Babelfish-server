@@ -1,8 +1,4 @@
 import { PickType } from '@nestjs/swagger';
 import { Member } from '../../entities/Member';
 
-export class AccountRegistrationDto extends PickType(Member, [
-  'userid',
-  'name',
-  'password',
-] as const) {}
+export class AccountRegistrationDto extends PickType(Member, ['userid', 'name', 'password'] as const) {}
