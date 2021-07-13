@@ -24,7 +24,7 @@ export class UsersController {
   async ChangeAccountInformation(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: AccountModifyDto) {
     const userInfoModifyResult = await this.usersService.userInfoModify(paramsData.useremail, bodyData.name, bodyData.password);
     if (userInfoModifyResult) {
-      this.usersService.responseCreator('유저 정보를 변경했습니다', 'u3');
+      return this.usersService.responseCreator('유저 정보를 변경했습니다', 'u3');
     }
   }
 
@@ -42,7 +42,11 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Delete(':useremail')
-  DeleteAccount(@Headers('token') tokenData, @Param() paramsData) {
-    return { paramsData: paramsData.useremail, tokenData: tokenData };
+  async DeleteAccount(@Headers('token') tokenData, @Param() paramsData) {
+    // { paramsData: paramsData.useremail, tokenData: tokenData }
+    const userHardDeleteResult = await this.usersService.userHardDelete(paramsData.useremail);
+    if (userHardDeleteResult) {
+      return this.usersService.responseCreator('유저 정보를 삭제했습니다', 'u7');
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from '../entities/Member';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -61,7 +61,19 @@ export class UsersService {
     const ROW_NOT_CHANGED = 0;
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const result = await this.membersRepository.update({ userid: userId }, { name: name, password: hashedPassword });
+    const result: DeleteResult = await this.membersRepository.update({ userid: userId }, { name: name, password: hashedPassword });
+
+    if (result.affected === ROW_NOT_CHANGED) {
+      throw new HttpException({ msg_code: 'u6', msg: '존재하지 않거나 이미 삭제된 유저 입니다.' }, 400);
+    } else {
+      return true;
+    }
+  }
+
+  async userHardDelete(userId: string) {
+    const ROW_NOT_CHANGED = 0;
+
+    const result: DeleteResult = await this.membersRepository.delete({ userid: userId });
 
     if (result.affected === ROW_NOT_CHANGED) {
       throw new HttpException({ msg_code: 'u6', msg: '존재하지 않거나 이미 삭제된 유저 입니다.' }, 400);
