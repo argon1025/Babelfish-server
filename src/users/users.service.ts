@@ -56,6 +56,20 @@ export class UsersService {
     }
   }
 
+  // 유저 정보 수정 서비스
+  async userInfoModify(userId: string, name: string, password: string) {
+    const ROW_NOT_CHANGED = 0;
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const result = await this.membersRepository.update({ userid: userId }, { name: name, password: hashedPassword });
+
+    if (result.affected === ROW_NOT_CHANGED) {
+      throw new HttpException({ msg_code: 'u6', msg: '존재하지 않거나 이미 삭제된 유저 입니다.' }, 400);
+    } else {
+      return true;
+    }
+  }
+
   // 응답 생성 서비스
   responseCreator(message: string, messageCode: string, data?: any) {
     let response: { msg: string; msg_code: string; data?: any } = {

@@ -1,5 +1,6 @@
-import { Controller, Delete, Headers, Param, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Headers, HttpException, Param, Put } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { AccountModifyDto } from 'src/token/dto/Account.Modify.dto';
 import { UsersService } from './users.service';
 
 @Controller('api/users')
@@ -20,16 +21,11 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Put(':useremail')
-  async ChangeAccountInformation(
-    @Headers('token') tokenData,
-    @Param() paramsData,
-  ) {
-    if (await this.usersService.userAlreadyExist(paramsData.useremail)) {
-      console.log('존재하는 아이디');
-    } else {
-      console.log('가입가능!');
+  async ChangeAccountInformation(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: AccountModifyDto) {
+    const userInfoModifyResult = await this.usersService.userInfoModify(paramsData.useremail, bodyData.name, bodyData.password);
+    if (userInfoModifyResult) {
+      this.usersService.responseCreator('유저 정보를 변경했습니다', 'u3');
     }
-    return { paramsData: paramsData.useremail, tokenData: tokenData };
   }
 
   @ApiTags('Account')
