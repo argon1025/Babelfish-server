@@ -1,13 +1,5 @@
 import { Body } from '@nestjs/common';
-import {
-  Controller,
-  Delete,
-  Get,
-  Headers,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { NoteAddDto } from './dto/Note.Add.dto';
 import { NotesService } from './notes.service';
@@ -47,11 +39,7 @@ export class NotesController {
     description: '사용자 계정',
   })
   @Post()
-  CreateNote(
-    @Headers('token') tokenData,
-    @Param() paramsData,
-    @Body() bodyData: NoteAddDto,
-  ) {
+  CreateNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
     return {
       token: tokenData,
       usermail: paramsData.useremail,
@@ -79,11 +67,7 @@ export class NotesController {
     description: '노트 아이디',
   })
   @Put(':noteid')
-  ModifyNote(
-    @Headers('token') tokenData,
-    @Param() paramsData,
-    @Body() bodyData: NoteAddDto,
-  ) {
+  ModifyNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
     return {
       token: tokenData,
       usermail: paramsData.useremail,
