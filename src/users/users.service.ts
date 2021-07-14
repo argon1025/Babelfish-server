@@ -84,7 +84,8 @@ export class UsersService {
 
   // 응답 생성 서비스
   responseCreator(message: string, messageCode: string, data?: any) {
-    let response: { msg: string; msg_code: string; data?: any } = {
+    let response: { error: string; msg: string; msg_code: string; data?: any } = {
+      error: 'false',
       msg: message,
       msg_code: messageCode,
     };
