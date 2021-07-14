@@ -21,8 +21,9 @@ export class NotesController {
     description: '사용자 계정',
   })
   @Get()
-  GetUserNotes(@Headers('token') tokenData, @Param() paramsData) {
-    return { token: tokenData, usermail: paramsData.useremail };
+  async GetUserNotes(@Headers('token') tokenData, @Param() paramsData) {
+    const userNoteData = await this.notesService.getUserNoteList(paramsData.useremail);
+    return this.notesService.responseCreator('유저 단어장 리스트를 정상적으로 반환 했습니다', 'n1-4', { data: userNoteData });
   }
 
   @ApiTags('Notes')
@@ -39,12 +40,9 @@ export class NotesController {
     description: '사용자 계정',
   })
   @Post()
-  CreateNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
-    return {
-      token: tokenData,
-      usermail: paramsData.useremail,
-      bodyData: bodyData,
-    };
+  async CreateNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
+    const createNoteResult = await this.notesService.createUserNote(paramsData.useremail, bodyData.notename);
+    return this.notesService.responseCreator('단어장을 등록했습니다', 'n2-4');
   }
 
   @ApiTags('Notes')
@@ -67,13 +65,9 @@ export class NotesController {
     description: '노트 아이디',
   })
   @Put(':noteid')
-  ModifyNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
-    return {
-      token: tokenData,
-      usermail: paramsData.useremail,
-      noteid: paramsData.noteid,
-      bodyData: bodyData,
-    };
+  async ModifyNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
+    const modifyNoteResult = await this.notesService.modifyUserNote(paramsData.noteid, paramsData.useremail, bodyData.notename);
+    return this.notesService.responseCreator('단어장정보를 수정했습니다.', 'n3-4');
   }
 
   @ApiTags('Notes')
@@ -96,12 +90,9 @@ export class NotesController {
     description: '노트 아이디',
   })
   @Delete(':noteid')
-  DeleteNote(@Headers('token') tokenData, @Param() paramsData) {
-    return {
-      token: tokenData,
-      usermail: paramsData.useremail,
-      noteid: paramsData.noteid,
-    };
+  async DeleteNote(@Headers('token') tokenData, @Param() paramsData) {
+    const deleteNoteResult = await this.notesService.deleteUserNote(paramsData.noteid, paramsData.useremail);
+    return this.notesService.responseCreator('단어장을 삭제했습니다', 'n4-4');
   }
 
   @ApiTags('Notes')
@@ -124,11 +115,8 @@ export class NotesController {
     description: '노트 아이디',
   })
   @Put(':noteid/updated-date')
-  NoteLearningDayRenew(@Headers('token') tokenData, @Param() paramsData) {
-    return {
-      token: tokenData,
-      usermail: paramsData.useremail,
-      noteid: paramsData.noteid,
-    };
+  async LearningStatusUpdate(@Headers('token') tokenData, @Param() paramsData) {
+    const learningStatusUpdateResult = await this.notesService.learningStatusUpdateForUserNote(paramsData.noteid, paramsData.useremail);
+    return this.notesService.responseCreator('단어장 학습일자를 갱신했습니다', 'n5-4');
   }
 }
