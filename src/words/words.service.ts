@@ -63,4 +63,17 @@ export class WordsService {
       throw new HttpException({ msg_code: 'w5-3', msg: '변경할 사항이 없거나 데이터베이스 에러로 수정에 실패했습니다.' }, 400);
     }
   }
+
+  // 응답 생성 서비스
+  responseCreator(message: string, messageCode: string, data?: any) {
+    let response: { error: string; msg: string; msg_code: string; data?: any } = {
+      error: 'false',
+      msg: message,
+      msg_code: messageCode,
+    };
+    if (!!data) {
+      response = { ...response, ...data };
+    }
+    return response;
+  }
 }
