@@ -1,14 +1,6 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Headers,
-  Body,
-  Post,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Param, Headers, Body, Post, Put, Delete } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { threadId } from 'worker_threads';
 import { WordAddDto } from './dto/Word.Add.dto';
 import { WordModifyDto } from './dto/Word.Modify.dto';
 import { WordsService } from './words.service';
@@ -38,11 +30,8 @@ export class WordsController {
   })
   @Get()
   GetWordsList(@Headers('token') tokenData, @Param() paramsData) {
-    return {
-      tokenData: tokenData,
-      useremail: paramsData.useremail,
-      noteid: paramsData.noteid,
-    };
+    const userWordData = this.wordsService.getUserWordList(paramsData.noteid);
+    return this.wordsService.responseCreator('정상적으로 작업을 수행 했습니다', 'w1-4', { data: userWordData });
   }
 
   @ApiTags('Words')
@@ -65,11 +54,7 @@ export class WordsController {
     description: '노트 아이디',
   })
   @Post()
-  AddNewWord(
-    @Headers('token') tokenData,
-    @Param() paramsData,
-    @Body() bodyData: WordAddDto,
-  ) {
+  AddNewWord(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: WordAddDto) {
     return {
       tokenData: tokenData,
       useremail: paramsData.useremail,
@@ -104,11 +89,7 @@ export class WordsController {
     description: '단어 아이디',
   })
   @Put(':wordid')
-  ModifyWord(
-    @Headers('token') tokenData,
-    @Param() paramsData,
-    @Body() bodyData: WordModifyDto,
-  ) {
+  ModifyWord(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: WordModifyDto) {
     return {
       tokenData: tokenData,
       useremail: paramsData.useremail,
