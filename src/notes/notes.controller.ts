@@ -1,9 +1,13 @@
-import { Body } from '@nestjs/common';
+import { Body, UseGuards } from '@nestjs/common';
 import { Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/common/Guard/Auth.Guard';
+import { RoleGuard } from 'src/common/Guard/Role.Guard';
 import { NoteAddDto } from './dto/Note.Add.dto';
 import { NotesService } from './notes.service';
 
+@UseGuards(AuthGuard) // 토큰 유효성 검증
+@UseGuards(RoleGuard) // 사용자 권한 검증
 @Controller('api/users/:useremail/notes')
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}

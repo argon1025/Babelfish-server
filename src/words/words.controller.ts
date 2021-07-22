@@ -1,10 +1,13 @@
-import { Controller, Get, Param, Headers, Body, Post, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Headers, Body, Post, Put, Delete, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-import { threadId } from 'worker_threads';
+import { AuthGuard } from 'src/common/Guard/Auth.Guard';
+import { RoleGuard } from 'src/common/Guard/Role.Guard';
 import { WordAddDto } from './dto/Word.Add.dto';
 import { WordModifyDto } from './dto/Word.Modify.dto';
 import { WordsService } from './words.service';
 
+@UseGuards(AuthGuard) // 토큰 유효성 검증
+@UseGuards(RoleGuard) // 사용자 권한 검증
 @Controller('api/users/:useremail/notes/:noteid/words')
 export class WordsController {
   constructor(private readonly wordsService: WordsService) {}
