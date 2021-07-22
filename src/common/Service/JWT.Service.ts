@@ -32,10 +32,26 @@ export class JwtService {
     try {
       const KEY = this.config.get<string>('TOKEN_KEY');
       const TokenVerifyResult = JWT.verify(token, KEY);
+
+      return TokenVerifyResult;
     } catch (error) {
       console.log('error');
       console.error(error);
       throw new HttpException({ msg_code: '4', msg: '토큰데이터가 올바르지 않습니다' }, 401);
+    }
+  }
+  roleVerify(token: string, userId: string) {
+    try {
+      const KEY = this.config.get<string>('TOKEN_KEY');
+      const TokenVerifyResult = <any>JWT.verify(token, KEY);
+
+      if (TokenVerifyResult.userid === userId) {
+        return true;
+      }
+    } catch (error) {
+      console.log('error');
+      console.error(error);
+      return false;
     }
   }
 }
