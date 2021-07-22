@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Headers, HttpException, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Headers, Param, Put, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/common/Guard/Auth.Guard';
+import { RoleGuard } from 'src/common/Guard/Role.Guard';
 import { AccountModifyDto } from 'src/token/dto/Account.Modify.dto';
 import { UsersService } from './users.service';
 
@@ -22,7 +23,8 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Put(':useremail')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard) // 토큰 유효성 검증
+  @UseGuards(RoleGuard) // 사용자 권한 검증
   async ChangeAccountInformation(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: AccountModifyDto) {
     const userInfoModifyResult = await this.usersService.userInfoModify(paramsData.useremail, bodyData.name, bodyData.password);
     if (userInfoModifyResult) {
@@ -44,6 +46,8 @@ export class UsersController {
     description: '로그인 후 발급받은 토큰 데이터',
   })
   @Delete(':useremail')
+  @UseGuards(AuthGuard) // 토큰 유효성 검증
+  @UseGuards(RoleGuard) // 사용자 권한 검증
   async DeleteAccount(@Headers('token') tokenData, @Param() paramsData) {
     // { paramsData: paramsData.useremail, tokenData: tokenData }
     const userHardDeleteResult = await this.usersService.userHardDelete(paramsData.useremail);

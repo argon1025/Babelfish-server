@@ -11,7 +11,7 @@ export class RoleGuard implements CanActivate {
     if (this.jwtService.roleVerify(request.headers.token, request.params.useremail)) {
       return true;
     } else {
-      throw new HttpException({ msg_code: '4', msg: '토큰데이터가 올바르지 않습니다' }, 401);
+      throw new HttpException({ msg_code: '4', msg: '다른 사용자 데이터에 접근할 권한이 없습니다' }, 401);
     }
   }
 }

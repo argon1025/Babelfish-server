@@ -1,11 +1,10 @@
-import { Controller, Get, Post, Patch, Delete, Body, HttpException, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, HttpException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from 'src/users/users.service';
 import { AccountLoginDto } from './dto/Account.Login.dto';
 import { AccountRegistrationDto } from './dto/Account.Registration.dto';
 import { TokenService } from './token.service';
 import { JwtService } from '../common/Service/JWT.Service';
-import { AuthGuard } from 'src/common/Guard/Auth.Guard';
 
 @Controller('token')
 export class TokenController {
@@ -14,7 +13,6 @@ export class TokenController {
   @ApiTags('Account')
   @ApiOperation({ summary: '[Legacy] 서버에 회원등록을 요청합니다' })
   @Post('join')
-  @UseGuards(AuthGuard)
   async AccountRegistration(@Body() bodyData: AccountRegistrationDto) {
     await this.userService.userRegistration(bodyData.userid, bodyData.name, bodyData.password, 'null');
     return this.userService.responseCreator('회원등록 되었습니다', 't7');
@@ -27,8 +25,6 @@ export class TokenController {
     const passwordValidation = await this.userService.userLogin(bodyData.userid, bodyData.password);
     // 토큰 발급
     const userToken: string = this.jwtService.sign(bodyData.userid);
-
-    this.jwtService.verify('111');
 
     if (passwordValidation) {
       return this.userService.responseCreator('회원 인증에 성공했습니다', 't3', { token: userToken });
