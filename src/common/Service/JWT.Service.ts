@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as JWT from 'jsonwebtoken';
 
 @Injectable()
-class Jwt {
+export class JwtService {
   constructor(private readonly config: ConfigService) {}
-  async sign(userId: string) {
+  sign(userId: string) {
     // 토큰 발급
     try {
       const TOKEN_INFO = {
@@ -23,6 +23,7 @@ class Jwt {
     } catch (error) {
       console.error('error');
       console.error(error);
+      throw new HttpException({ msg_code: '4', msg: '알수없는 이유로 토큰 발급에 실패했습니다...' }, 500);
     }
   }
 
@@ -31,10 +32,10 @@ class Jwt {
     try {
       const KEY = this.config.get<string>('TOKEN_KEY');
       const TokenVerifyResult = JWT.verify(token, KEY);
-      console.log(TokenVerifyResult);
     } catch (error) {
       console.log('error');
       console.error(error);
+      throw new HttpException({ msg_code: '4', msg: '토큰데이터가 올바르지 않습니다' }, 401);
     }
   }
 }
