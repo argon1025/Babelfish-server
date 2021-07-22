@@ -20,7 +20,7 @@ export class NotesService {
   // 유저 노트를 생성
   async createUserNote(userId: string, noteName: string) {
     try {
-      await this.noteRepository.save({ memberEmail: userId, notename: noteName, learningDay: null });
+      await this.noteRepository.save({ memberEmail: userId, name: noteName, learningDay: null });
     } catch (error) {
       throw new HttpException({ msg_code: 'n2-3', msg: '데이터베이스 에러로 단어장 등록에 실패했습니다.' }, 400);
     }
@@ -30,7 +30,7 @@ export class NotesService {
   async modifyUserNote(noteId: number, userId: string, noteName: string) {
     const ROW_NOT_CHANGED = 0;
 
-    const modifyNoteResult = await this.noteRepository.update({ id: noteId, memberEmail: userId }, { notename: noteName });
+    const modifyNoteResult = await this.noteRepository.update({ id: noteId, memberEmail: userId }, { name: noteName });
 
     if (modifyNoteResult.affected === ROW_NOT_CHANGED) {
       throw new HttpException({ msg_code: 'n3-3', msg: '변경할 사항이 없거나 데이터베이스 에러로 수정에 실패했습니다.' }, 400);

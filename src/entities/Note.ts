@@ -28,7 +28,7 @@ export class Note {
   @IsString()
   @MinLength(1)
   @MaxLength(10)
-  notename: string | null;
+  name: string | null;
 
   @Column('date', { name: 'Learning_Day', nullable: true })
   learningDay: string | null;

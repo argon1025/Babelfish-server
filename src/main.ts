@@ -9,7 +9,7 @@ import { HttpExceptionFilter } from './common/ExceptionFilters/HttpException.fil
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   // Swagger
   const config = new DocumentBuilder().setTitle('Babelfish').setDescription('Babelfish API description').setVersion('2.0').build();

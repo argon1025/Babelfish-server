@@ -20,7 +20,7 @@ export class WordsService {
   // 단어 생성
   async createUserWord(noteId: number, userId: string, wordTitle: string, wordMean1: string, wordMean2: string) {
     try {
-      await this.wordsRepository.save({ noteId: noteId, title: wordTitle, mean1: wordMean1, mean2: wordMean2, wrongCount: null });
+      await this.wordsRepository.save({ noteId: noteId, Word_Title: wordTitle, Mean1: wordMean1, Mean2: wordMean2, wrongCount: null });
     } catch (error) {
       throw new HttpException({ msg_code: 'w2-3', msg: '변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다' }, 500);
     }
@@ -30,7 +30,7 @@ export class WordsService {
   async modifyUserWord(noteId: number, wordId: number, userId: string, wordTitle: string, wordMean1: string, wordMean2: string) {
     const ROW_NOT_CHANGED = 0;
 
-    const modifyWordResult = await this.wordsRepository.update({ id: wordId, noteId: noteId }, { title: wordTitle, mean1: wordMean1, mean2: wordMean2 });
+    const modifyWordResult = await this.wordsRepository.update({ id: wordId, noteId: noteId }, { Word_Title: wordTitle, Mean1: wordMean1, Mean2: wordMean2 });
 
     if (modifyWordResult.affected === ROW_NOT_CHANGED) {
       throw new HttpException({ msg_code: 'w3-3', msg: '변경할 사항이 없거나 데이터베이스 에러로 수정에 실패했습니다.' }, 400);

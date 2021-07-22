@@ -58,7 +58,7 @@ export class WordsController {
   })
   @Post()
   async AddNewWord(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: WordAddDto) {
-    await this.wordsService.createUserWord(paramsData.noteid, paramsData.useremail, bodyData.title, bodyData.mean1, bodyData.mean2);
+    await this.wordsService.createUserWord(paramsData.noteid, paramsData.useremail, bodyData.Word_Title, bodyData.Mean1, bodyData.Mean2);
     return this.wordsService.responseCreator('단어를 등록했습니다', 'w2-5');
   }
 
@@ -89,7 +89,7 @@ export class WordsController {
   })
   @Put(':wordid')
   async ModifyWord(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: WordModifyDto) {
-    await this.wordsService.modifyUserWord(paramsData.noteid, paramsData.wordid, paramsData.useremail, bodyData.title, bodyData.mean1, bodyData.mean2);
+    await this.wordsService.modifyUserWord(paramsData.noteid, paramsData.wordid, paramsData.useremail, bodyData.Word_Title, bodyData.Mean1, bodyData.Mean2);
     return this.wordsService.responseCreator('단어를 수정했습니다', 'w3-5');
   }
 

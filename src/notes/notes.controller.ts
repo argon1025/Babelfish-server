@@ -45,7 +45,7 @@ export class NotesController {
   })
   @Post()
   async CreateNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
-    const createNoteResult = await this.notesService.createUserNote(paramsData.useremail, bodyData.notename);
+    const createNoteResult = await this.notesService.createUserNote(paramsData.useremail, bodyData.name);
     return this.notesService.responseCreator('단어장을 등록했습니다', 'n2-4');
   }
 
@@ -70,7 +70,7 @@ export class NotesController {
   })
   @Put(':noteid')
   async ModifyNote(@Headers('token') tokenData, @Param() paramsData, @Body() bodyData: NoteAddDto) {
-    const modifyNoteResult = await this.notesService.modifyUserNote(paramsData.noteid, paramsData.useremail, bodyData.notename);
+    const modifyNoteResult = await this.notesService.modifyUserNote(paramsData.noteid, paramsData.useremail, bodyData.name);
     return this.notesService.responseCreator('단어장정보를 수정했습니다.', 'n3-4');
   }
 

@@ -27,7 +27,7 @@ export class Word {
   @IsString()
   @MinLength(1)
   @MaxLength(30)
-  title: string | null;
+  Word_Title: string | null;
 
   @Column('varchar', {
     name: 'Mean1',
@@ -44,7 +44,7 @@ export class Word {
   @IsString()
   @MinLength(1)
   @MaxLength(30)
-  mean1: string | null;
+  Mean1: string | null;
 
   @Column('varchar', {
     name: 'Mean2',
@@ -61,7 +61,7 @@ export class Word {
   @IsString()
   @MinLength(1)
   @MaxLength(30)
-  mean2: string | null;
+  Mean2: string | null;
 
   @Column('int', {
     name: 'Wrong_Count',
